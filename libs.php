@@ -66,7 +66,7 @@
 	function getConnection()
 	{
 		//Just sticking this in a function so I don't have to type out this long ass connection string everywhere
-		$conn = mysqli_connect("127.0.0.1", "kingtb", "900499681", "3430-f14-t1") or die ("Error: " . mysqli_connect_error());
+		$conn = mysqli_connect("127.0.0.1", "kingtb", "9", "3430-f14-t1") or die ("Error: " . mysqli_connect_error());
 		return $conn;
 	}
 	
