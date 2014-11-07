@@ -1,0 +1,12 @@
+/*stylesheet for the geography databse*/
+body{
+    font-family: sans-serif;
+}
+.form{
+    border-collapse: collapse;
+}
+.mainWrapper{
+    padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
