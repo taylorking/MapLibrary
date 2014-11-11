@@ -6,20 +6,26 @@
 	Under MIT License, Copyright 2014
 	*/
 
+	function verifyLogin()
+	{
+		//Make sure both cookies are set before we run this method.. otherwise php will crash as we try to access a variable that isn't there 
+		if(isset($_COOKIE['password']) && isset($_COOKIE['user']))
+		{
+			$username = $_COOKIE['user'];
+			//Query the password hash out of the database
+			$query = "SELECT password FROM auth where username='" . $_COOKIE['user'] . "'";
+			$conn = getConnection();
+			$result = mysqli_query($conn, $query);
+			$data = $result->fetch_array(MYSQLI_BOTH);
+			// If the hash matches the hash in the database everything is kosher.
+			if($data != null && $_COOKIE['password'] == $data['password'])
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 	// if the form posts to libs.php with its variable form_id set to login, we want to run the login routine
-	if(isset($_POST['form_id']) && $_POST['form_id'] == "login")
-	{
-		doLogin();	
-	}
-	if(isset($_GET['function']) && $_GET['function'] == "logout")
-	{
-			setcookie('user', 'password', 1); //Set the cookies expired with bad data. 
-			setcookie('password', 'blank', 1); 
-			session_destroy();
-			echo("Successfully Logged out.");
-		//	echo('<script type="text/javascript"> document.location="login.php";</script>');
-	}
-	// I am going to use this to create a way for the user to logout .. Dont worry about it for now.
 	//This function logs the user in.	
 	function doLogin()
 	{
@@ -41,32 +47,14 @@
 		{
 			echo('Login successful. <a href="search.php">Return to search</a>');
 		}
-	}
-	function verifyLogin()
-	{
-		//Make sure both cookies are set before we run this method.. otherwise php will crash as we try to access a variable that isn't there 
-		if(isset($_COOKIE['password']) && isset($_COOKIE['user']))
-		{
-			$username = $_COOKIE['user'];
-			//Query the password hash out of the database
-			$query = "SELECT password FROM auth where username='" . $_COOKIE['user'] . "'";
-			$conn = getConnection();
-			$result = mysqli_query($conn, $query);
-			$data = $result->fetch_array(MYSQLI_BOTH);
-			// If the hash matches the hash in the database everything is kosher.
-			if($data != null && $_COOKIE['password'] == $data['password'])
-			{
-				return true;
-			}
-		}
-		return false;
-	}
+  }
+
 	
 	
 	function getConnection()
 	{
 		//Just sticking this in a function so I don't have to type out this long ass connection string everywhere
-		$conn = mysqli_connect("127.0.0.1", "kingtb", "9", "3430-f14-t1") or die ("Error: " . mysqli_connect_error());
+		$conn = mysqli_connect("127.0.0.1", "kingtb", "900499681", "3430-f14-t1") or die ("Error: " . mysqli_connect_error());
 		return $conn;
 	}
 	
@@ -103,4 +91,17 @@
 		echo("</table>");
 	}
 
+	if(isset($_POST['form_id']) && $_POST['form_id'] == "login")
+	{
+		doLogin();	
+	}
+	if(isset($_GET['funct']) && $_GET['funct'] == "logout")
+	{
+			setcookie('user', 'password', 1); //Set the cookies expired with bad data. 
+			setcookie('password', 'blank', 1); 
+			session_destroy();
+			echo("Successfully Logged out.");
+		//	echo('<script type="text/javascript"> document.location="login.php";</script>');
+	}
+	// I am going to use this to create a way for the user to logout .. Dont worry about it for now.
 ?>

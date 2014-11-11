@@ -1,3 +1,7 @@
+<!--  What this file is: Allow the administrator to edit an entry for a map or create a new map.
+      on the present.php page if the user clicks on an edit button beside one of the maps or clicks on the plus button, we should display this page.
+
+-->
 <html>
 	<head>
 		<title>
@@ -40,7 +44,7 @@
 					$row = ($result != null)? $result->fetch_array(MYSQLI_BOTH) : null;
 
 					// The code below prepopulates the fields on the form if we have been passed an ID as a get parameter. It will query the database to fill out the text fields. 		
-
+          // The following prepopulate the table with the data that we already have available.
 					echo '<input type="hidden" value="' . $row['id'] . '" name="id"/>';
 					echo '<table class="form">
 								<tr>

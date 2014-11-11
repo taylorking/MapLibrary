@@ -9,6 +9,7 @@
 			var tab,data;
 			var sorted = -1;
 			var ascending = false;
+      tab = document.getElementsByName("data")[0];
 
 			function parse(data) 
 			{

@@ -1,3 +1,9 @@
+<!-- What this file is:
+This is a form that the user will fill out with their query information. 
+It should dynamically change on the fly to only allow them to fill 
+certain fields.
+
+-->
 <html>
 	<head>
 		<title>
