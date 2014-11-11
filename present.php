@@ -14,12 +14,17 @@
       } 
       function fill()
       {
-            result = ( <?php 
-             include 'do_search.php'; // Take the get result from this the form and hand it off to another php file. I cut the big block out of here for clarity.
-              echo(do_search($_GET));
+        var admin = (
+          <?php
+          include_once "libs.php";
+          echo json_encode(verifyLogin());
+            ?>); // Verify whether or not the user is an admin in order to descide whether to print edit buttons
+        result = ( <?php 
+          include 'do_search.php'; // Take the get result from this the form and hand it off to another php file. I cut the big block out of here for clarity.
+            echo(do_search($_GET));
               ?>);  
             result = result;
-            table_array(result); 
+            initial_table(result, admin); 
         }
     </script>
   </head>

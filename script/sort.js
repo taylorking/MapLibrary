@@ -1,42 +1,46 @@
 			
 			
 	/**
-	Appalachian State University Geography Maps Database
+	Appalachian State University Geography Maps Da_tabase
 	Taylor King, Ian Matthews, Derrick Hamm, Huy Tu
 	Under MIT License, Copyright 2014
 	*/
 
-			var tab,data;
+			var _tab,_data;
 			var sorted = -1;
 			var ascending = false;
-      tab = document.getElementsByName("data")[0];
+      var admin = false; // Note enabling this in the javascript console will not do anything except show the buttons. The php to actually execute queries will not work unless you are loggied in.
+      _tab = document.getElementsByName("data")[0];
 
-			function parse(data) 
-			{
-				data = data;
-				tab = document.getElementsByName("data")[0];
-				table_array(data);
-			}
 			
-
-			// This function takes the 2d array of data and puts it in a table with the nametag "data"
-			function table_array(data) 
+      function initial_table(data, admin)
+      {
+        _data = data;
+        _admin = admin;
+        for(i = 0; i < _data.length; i++) // initialize the table and add our sweet buttons to the end of the row
+        {
+            _data[i].push(((admin)? '<a href="edit.php?id=' + _data[i][0] + '"><img src="asset/edit-256.png" width=16 height=16/></a><a href="edit.php?function=delete&id=' + _data[i][0] + '"><img src="asset/x-mark-4-256.png" width=16 height=16/></a>':"") + '<a href="summary.php?id=' + _data[i][0] + '"><img src="asset/question-mark-4-256.png" width=16 height=16/></a>');
+        }
+        table_array(_data, _admin);
+      }
+			// This function takes the 2d array of data and puts it in a _table with the nametag "data"
+			function table_array(data, admin) 
 			{
 				for(i = 0; i < data.length; i++)
 				{
 						// Create <tr> </tr> for the data with javascript
-						tab.insertRow();
+						_tab.insertRow();
 						for(j = 1; j < data[i].length; j++)
 						{
-							tab.rows[i+1].insertCell();
+							_tab.rows[i+1].insertCell();
 							// Not sure if I truly needed to do the test for null, but if the data is null we put in nothing
-							tab.rows[i +1].cells[j-1].innerHTML = (data[i][j] != null)? data[i][j]:"";
+							_tab.rows[i +1].cells[j-1].innerHTML = (data[i][j] != null)? data[i][j]:"";
 						}
-				}
+        }
 			}
 			
 
-			// Remove all icons from table headers
+			// Remove all icons from _table headers
 			function clearAllIcons()
 			{
 				for(i = 0; i < document.getElementsByName("data")[0].rows[0].cells.length; i++)
@@ -53,7 +57,7 @@
 				var asc = true;
 				var cell = document.getElementsByName("data")[0].rows[0].cells[p];
 			  var img = cell.getElementsByTagName("img")[0];
-				clearTable();
+				clear_table();
 				// If this isnt the currently sorted column, we are doing a new sort.
 				if(sorted != p) 
 				{
@@ -85,45 +89,46 @@
 				}	
 					// I am just doing a bubble sort here, because I am that lazy.. LOL, if we are only going to have about 2000 records, it shouldn't matter.. It's rendered on the client anyways though. 
 					if(ascending){
-						for( i = 0 ; i < data.length ; i++)
+						for( i = 0 ; i < _data.length ; i++)
 						{
-							for(j = 0; j < data.length - 1; j++)
+							for(j = 0; j < _data.length - 1; j++)
 							{
-								if(data[j][p+1] > data[j+1][p+1])
+								if(_data[j][p+1] > _data[j+1][p+1])
 								{
-									var hold = data[j+1];
-									data[j+1] = data[j];
-									data[j] = hold;
+									var hold = _data[j+1];
+									_data[j+1] = _data[j];
+									_data[j] = hold;
 								}
 							}
 						}
 					}
 					else {
-						for(i = 0; i < data.length; i++)
+						for(i = 0; i < _data.length; i++)
 						{
-							for(j = 0; j < data.length - 1; j++)
+							for(j = 0; j < _data.length - 1; j++)
 							{
-								if(data[j][p+1] < data[j+1][p+1])
+								if(_data[j][p+1] < _data[j+1][p+1])
 								{
-									var hold = data[j+1];
-									data[j+1] = data[j]
-										data[j] = hold;
+									var hold = _data[j+1];
+									_data[j+1] = _data[j]
+									_data[j] = hold;
 								}
 							}
 						}
 					}
-					clearTable();
-					table_array(data);
+          //_data = data;
+					clear_table();
+					table_array(_data, _admin);
 				}
 //Do the actual sort now
 //			doSort();
 
 
-function clearTable()
+function clear_table()
 {
 	// Iterate through the length of the array and remove all the arrays.
-	for(i = tab.length - 1; i > 0; i--)
+	for(i = _tab.length - 1; i > 0; i--)
 	{
-		tab.rows[i].remove();
+		_tab.rows[i].remove();
 	}
 }

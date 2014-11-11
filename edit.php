@@ -9,17 +9,16 @@
 			if(isset($_GET['id']))
 			{
 			
-					include 'libs.php';
+					include_once 'libs.php';
 					$query = "SELECT Title FROM maps where id='" . $_GET['id'] . "'";
 					$conn = getConnection();
 					$result = mysqli_query($conn, $query);
 					$result = $result->fetch_array(MYSQLI_BOTH);
 					echo($result['Title']);
-				} else 
-{
-	echo "Create a new record";
-}
-?>
+				} else {
+	        echo "Create a new record";
+        }
+      ?>
 		</title>
 			<script type="text/javascript"> 
 					function validate()
@@ -33,7 +32,7 @@
 		<form action="alter.php" method="post"> 
 			<?php 	
 				// This page is a way for the administrator to edit records in the database. This is just the front-end form. The code to perform the transactions will likeley go in another file, however I have not decided yet.
-					include 'libs.php'; 
+					include_once 'libs.php'; 
 					if(!verifyLogin()) 
 					{
 						echo('You are not allowed to access this page. Please <a href="login.php">login</a>');
